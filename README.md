@@ -15,6 +15,37 @@ mlops-project/
 └── frontend/                 # Auditor dashboard UI
 ```
 
+---
+mlops-project/
+├── .github/
+│   └── workflows/
+│       └── mlops-pipeline.yml        # Train → build → deploy automation
+│
+├── terraform/
+│   ├── main.tf                       # Azure resources
+│   ├── variables.tf                  # Configurable values
+│   └── outputs.tf                    # Resource outputs
+│
+├── ml/
+│   ├── data/
+│   │   └── transactions.csv          # Input dataset
+│   ├── train.py                      # Model training + save to Blob
+│   └── requirements.txt              # ML dependencies
+│
+├── api/
+│   ├── main.py                       # FastAPI app (loads model, serves preds)
+│   ├── Dockerfile                    # Containerize API
+│   └── requirements.txt              # API dependencies
+│
+├── frontend/
+│   ├── index.html                    # Dashboard UI
+│   ├── script.js                     # Calls API, renders results
+│   └── style.css                     # Styling
+│
+└── README.md                          # Project overview & usage
+
+---
+
 ## **How It Works**
 1. **Train model** in `ml/` and save the artifact to Azure Storage.  
 2. **CI/CD** builds the API Docker image and pushes it to **Azure Container Registry**.  
