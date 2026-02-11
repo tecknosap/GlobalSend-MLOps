@@ -1,0 +1,11 @@
+transaction_id,user_id,amount,currency,country,merchant_category,channel,hour,is_international,is_fraud
+tx1001,u001,25.50,USD,US,groceries,card,10,false,0
+tx1002,u002,1200.00,USD,US,electronics,card,23,false,1
+tx1003,u003,75.20,EUR,FR,restaurant,card,19,false,0
+tx1004,u001,540.00,USD,US,travel,online,2,false,1
+tx1005,u004,15.99,USD,US,coffee,card,8,false,0
+tx1006,u005,2200.00,GBP,GB,electronics,online,1,true,1
+tx1007,u006,89.00,USD,US,clothing,card,14,false,0
+tx1008,u002,650.00,USD,US,travel,online,3,false,1
+tx1009,u007,42.30,EUR,DE,groceries,card,17,false,0
+tx1010,u008,3100.00,USD,US,jewelry,online,0,true,1

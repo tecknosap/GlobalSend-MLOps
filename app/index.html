@@ -1,222 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GlobalSend - Send Money Worldwide</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GlobalSend MLOps · Auditor Dashboard</title>
+  <!-- GlobalSend brand font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- External CSS -->
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <!-- GlobalSend header -->
+  <header class="global-header">
+    <div class="logo-area">
+      <div class="logo-icon">GS</div>
+      <div class="logo-text">Global<span>Send</span></div>
+      <div class="badge-container">
+        <span class="mlops-badge">MLOPS · AUDITOR</span>
+        <span class="local-test-badge">SAMPLE DATA</span>
+      </div>
+    </div>
+    <div class="endpoint-indicator">
+      <span class="endpoint-dot"></span>
+      <span>Local Sample Endpoint</span>
+      <span class="endpoint-env">test</span>
+    </div>
+  </header>
 
-    <!-- Header -->
-    <header class="header">
-        <nav class="navbar">
-            <div class="logo">
-                <i class="fas fa-globe-americas"></i>
-                <span>GlobalSend</span>
-            </div>
-            <div class="nav-links">
-                <a href="#" class="active">Send</a>
-                <a href="#">Receive</a>
-                <a href="#">Business</a>
-                <a href="#">Help</a>
-            </div>
-            <div class="auth-buttons">
-                <a href="#" class="login">Log In</a>
-                <a href="#" class="signup">Sign Up</a>
-            </div>
-        </nav>
-    </header>
+  <main class="container">
+    <!-- Page header -->
+    <div class="page-header">
+      <h1>Fraud Auditor Dashboard</h1>
+      <div class="subhead">
+        <span class="test-mode-indicator">🧪 SAMPLE DATA MODE</span>
+        Using internal sample transactions for testing.
+      </div>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Send Money Worldwide in Minutes</h1>
-            <p>Fast, secure, low-cost transfers to 130+ countries</p>
+      <!-- Model metrics -->
+      <div class="metrics-grid">
+        <div class="metric-card"><span class="metric-label">Model</span><span class="metric-value">XGBoost v2.1.4</span></div>
+        <div class="metric-card"><span class="metric-label">Accuracy</span><span class="metric-value">0.973</span></div>
+        <div class="metric-card"><span class="metric-label">F1 score</span><span class="metric-value">0.942</span></div>
+        <div class="metric-card"><span class="metric-label">Status</span><span class="metric-value status-active">● Sample</span></div>
+        <div class="metric-card"><span class="metric-label">Endpoint</span><span class="metric-value">local</span></div>
+      </div>
+    </div>
 
-            <!-- Transfer Calculator -->
-            <div class="calculator">
-                <h3><i class="fas fa-calculator"></i> Transfer Calculator</h3>
+    <!-- Search card -->
+    <div class="search-card">
+      <div class="search-header">
+        <span class="search-icon">🔎</span>
+        <h2>Transaction lookup</h2>
+      </div>
 
-                <div class="calculator-inputs">
-                    <div class="input-group">
-                        <label>You Send</label>
-                        <div class="input-box">
-                            <input type="number" id="send-amount" value="100" min="1">
-                            <select id="send-currency">
-                                <option value="USD">USD</option>
-                                <option value="EUR">EUR</option>
-                                <option value="GBP">GBP</option>
-                            </select>
-                        </div>
-                    </div>
+      <div class="input-group">
+        <input type="text" id="transactionId" placeholder="Enter transaction ID (e.g., TX-GS-7721)">
+        <div class="button-group">
+          <button class="btn btn-primary" id="submitBtn"><span>⚡</span> Fetch prediction</button>
+          <button class="btn btn-secondary" id="sampleBtn"><span>🔄</span> Use sample ID</button>
+        </div>
+      </div>
+      <div class="input-hint">Using sample data while testing • no real endpoint calls</div>
+    </div>
 
-                    <div class="exchange-icon">
-                        <i class="fas fa-exchange-alt"></i>
-                    </div>
+    <!-- Result card -->
+    <div class="result-card" id="resultContainer">
+      <!-- Placeholder -->
+      <div id="placeholderMsg" class="placeholder-state">
+        <div class="placeholder-icon">📊</div>
+        <div class="placeholder-title">Ready to test</div>
+        <div class="placeholder-text">Click "Fetch prediction" to see fraud assessment for a sample transaction.</div>
+        <div class="placeholder-badge">sample data</div>
+      </div>
 
-                    <div class="input-group">
-                        <label>They Receive</label>
-                        <div class="input-box">
-                            <input type="number" id="receive-amount" readonly>
-                            <select id="receive-currency">
-                                <option value="GBP">GBP</option>
-                                <option value="EUR">EUR</option>
-                                <option value="USD">USD</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="rate-info">
-                    <p>Exchange Rate: <span id="exchange-rate">1 USD = 0.82 GBP</span></p>
-                    <p>Transfer Fee: <span class="fee" id="transfer-fee">$5.99</span></p>
-                    <p class="total-info">Total You Pay: <span id="total-cost">$105.99</span></p>
-                </div>
-
-                <button class="btn-send">
-                    <i class="fas fa-paper-plane"></i> Start Transfer
-                </button>
-            </div>
+      <!-- Dynamic result -->
+      <div id="dynamicResult" class="dynamic-result" style="display:none;">
+        <div class="result-header">
+          <div class="result-title">
+            <span class="result-icon">🛡️</span>
+            <h3>Fraud assessment</h3>
+            <span class="txn-badge" id="txnIdDisplay">ID: TX-GS-7721</span>
+          </div>
+          <span class="result-badge">SAMPLE</span>
         </div>
 
-        <div class="hero-image">
-            <div class="image-placeholder">
-                <i class="fas fa-money-bill-transfer"></i>
-            </div>
+        <div class="prediction-container">
+          <div class="prediction-tag" id="predictionLabel">LEGITIMATE</div>
         </div>
-    </section>
 
-    <!-- Features -->
-    <section class="features">
-        <h2>Why Choose GlobalSend?</h2>
-
-        <div class="features-grid">
-            <div class="feature">
-                <div class="feature-icon">
-                    <i class="fas fa-bolt"></i>
-                </div>
-                <h3>Fast Transfers</h3>
-                <p>Money arrives in minutes, not days</p>
-            </div>
-
-            <div class="feature">
-                <div class="feature-icon">
-                    <i class="fas fa-lock"></i>
-                </div>
-                <h3>Secure</h3>
-                <p>Bank-level security</p>
-            </div>
-
-            <div class="feature">
-                <div class="feature-icon">
-                    <i class="fas fa-percent"></i>
-                </div>
-                <h3>Low Fees</h3>
-                <p>Competitive rates</p>
-            </div>
-
-            <div class="feature">
-                <div class="feature-icon">
-                    <i class="fas fa-mobile-alt"></i>
-                </div>
-                <h3>Easy App</h3>
-                <p>Send in few taps</p>
-            </div>
+        <div class="score-grid">
+          <div class="score-item"><span class="score-label">Fraud score</span><span class="score-value" id="fraudScoreValue">0.21</span></div>
+          <div class="score-item"><span class="score-label">Risk level</span><span class="score-value" id="riskLevel">Low</span></div>
+          <div class="score-item"><span class="score-label">Threshold</span><span class="score-value">0.65</span></div>
+          <div class="score-item"><span class="score-label">Response</span><span class="score-value" id="responseTime">—</span></div>
         </div>
-    </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-logo">
-                <i class="fas fa-globe-americas"></i>
-                <span>GlobalSend</span>
-            </div>
-
-            <div class="footer-links">
-                <a href="#">About</a>
-                <a href="#">Careers</a>
-                <a href="#">Contact</a>
-                <a href="#">Privacy</a>
-            </div>
-
-            <div class="social">
-                <a href="#"><i class="fab fa-facebook"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-            </div>
+        <div class="model-metadata">
+          <span>⚙️ Model: <strong id="modelVersion">XGBoost_2026-02-11</strong></span>
+          <span>📌 Deployment: local-sample</span>
+          <span>🕒 <span id="timestamp">—</span></span>
         </div>
-        <p class="copyright">© 2023 GlobalSend Demo</p>
-    </footer>
+      </div>
+    </div>
 
-    <!-- Calculator Script #corrected -->
-    <script>
-        const exchangeRates = {
-            'USD_GBP': 0.82,
-            'USD_EUR': 0.93,
-            'GBP_USD': 1.22,
-            'GBP_EUR': 1.14,
-            'EUR_USD': 1.08,
-            'EUR_GBP': 0.88
-        };
+    <!-- Sample test cases -->
+    <div class="test-cases-section">
+      <h4>Sample Transactions</h4>
+      <div class="test-cases-grid">
+        <div class="test-case-card case-legitimate">
+          <div class="case-badge">✅ Legitimate</div>
+          <code>TX-LEGIT-001</code>
+          <span class="case-score">Score: 0.12 - 0.37</span>
+        </div>
+        <div class="test-case-card case-fraudulent">
+          <div class="case-badge">⚠️ Fraudulent</div>
+          <code>TX-FRAUD-789</code>
+          <span class="case-score">Score: 0.68 - 0.99</span>
+        </div>
+        <div class="test-case-card case-edge">
+          <div class="case-badge">🔄 Borderline</div>
+          <code>TX-BORDER-555</code>
+          <span class="case-score">Score: 0.60 - 0.65</span>
+        </div>
+      </div>
+    </div>
 
-        const transferFees = {
-            'USD': { fixed: 3.99, percentage: 0.02 },
-            'EUR': { fixed: 3.50, percentage: 0.02 },
-            'GBP': { fixed: 3.00, percentage: 0.02 }
-        };
+    <div class="pipeline-info">
+      <span>✅ Sample mode • No Azure charges</span>
+      <span>🚀 Replace sample data with real AML endpoint for production</span>
+    </div>
+  </main>
 
-        const sendAmountInput = document.getElementById('send-amount');
-        const sendCurrencySelect = document.getElementById('send-currency');
-        const receiveAmountInput = document.getElementById('receive-amount');
-        const receiveCurrencySelect = document.getElementById('receive-currency');
-        const exchangeRateSpan = document.getElementById('exchange-rate');
-        const transferFeeSpan = document.getElementById('transfer-fee');
-        const totalCostSpan = document.getElementById('total-cost');
+  <!-- Footer -->
+  <footer class="global-footer">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <div class="logo-icon-small">GS</div>
+        <span>GlobalSend MLOps · Local development</span>
+      </div>
+      <div class="footer-badge">localhost:8000 | sample mode</div>
+    </div>
+  </footer>
 
-        function formatCurrency(amount, currency) {
-            return new Intl.NumberFormat('en-US', {
-                style: 'currency',
-                currency: currency,
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            }).format(amount);
-        }
-
-        function calculateTransfer() {
-            const sendAmount = parseFloat(sendAmountInput.value) || 0;
-            const sendCurrency = sendCurrencySelect.value;
-            const receiveCurrency = receiveCurrencySelect.value;
-
-            const rateKey = `${sendCurrency}_${receiveCurrency}`;
-            const exchangeRate = exchangeRates[rateKey] || 1;
-
-            const feeData = transferFees[sendCurrency];
-            const percentageFee = sendAmount * feeData.percentage;
-            const totalFee = percentageFee + feeData.fixed;
-
-            const totalCost = sendAmount + totalFee;
-            const receivedAmount = sendAmount * exchangeRate;
-
-            receiveAmountInput.value = receivedAmount.toFixed(2);
-            exchangeRateSpan.textContent = `1 ${sendCurrency} = ${exchangeRate.toFixed(2)} ${receiveCurrency}`;
-            transferFeeSpan.textContent = formatCurrency(totalFee, sendCurrency);
-            totalCostSpan.textContent = formatCurrency(totalCost, sendCurrency);
-        }
-
-        function initCalculator() {
-            calculateTransfer();
-            sendAmountInput.addEventListener('input', calculateTransfer);
-            sendCurrencySelect.addEventListener('change', calculateTransfer);
-            receiveCurrencySelect.addEventListener('change', calculateTransfer);
-            receiveCurrencySelect.value = 'GBP';
-            calculateTransfer();
-        }
-
-        document.addEventListener('DOMContentLoaded', initCalculator);
-    </script>
-
+  <!-- Script -->
+  <script src="script.js"></script>
 </body>
 </html>
