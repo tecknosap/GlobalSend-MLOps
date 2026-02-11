@@ -15,7 +15,6 @@ mlops-project/
 └── frontend/                 # Auditor dashboard UI
 ```
 
----
 mlops-project/
 ├── .github/
 │   └── workflows/
