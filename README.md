@@ -15,6 +15,8 @@ mlops-project/
 └── frontend/                 # Auditor dashboard UI
 ```
 
+
+```
 mlops-project/
 ├── .github/
 │   └── workflows/
@@ -42,8 +44,11 @@ mlops-project/
 │   └── style.css                     # Styling
 │
 └── README.md                          # Project overview & usage
+```
 
----
+
+
+
 
 ## **How It Works**
 1. **Train model** in `ml/` and save the artifact to Azure Storage.  
