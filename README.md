@@ -25,7 +25,7 @@ globalsend-mlops/
 │
 ├── ml/
 │   ├── data/
-│   │   └── transactions-sample.csv  # GlobalSend transaction history
+│   │   └── transactions-sample.csv  # GlobalSend transaction history (actual CSV file)
 │   ├── training/
 │   │   ├── train.py         # Train + log params/metrics + register
 │   │   └── requirements.txt
@@ -33,7 +33,6 @@ globalsend-mlops/
 │       └── scoring.py       # Scoring script for managed endpoint
 │
 └── README.md
-```
 
 ---
 
