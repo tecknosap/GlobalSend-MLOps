@@ -43,7 +43,6 @@ globalsend-mlops/
 | **Resource Group** | Container for all resources |
 | **Azure ML Workspace** | Central hub for experiments, models, endpoints |
 | **Storage Account (Blob)** | Stores GlobalSend transaction CSV |
-| **Container Registry (ACR)** | Stores endpoint container images |
 | **Managed Endpoint** | REST API endpoint for fraud predictions |
 | **B1s Compute** | Minimal compute for training + scoring |
 
