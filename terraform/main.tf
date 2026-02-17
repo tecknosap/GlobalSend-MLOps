@@ -11,7 +11,7 @@ locals {
 # Resource Group
 ########################
 resource "azurerm_resource_group" "rg" {
-  name     = var.resource_group_name
+  name     = "globalsend-${var.environment}-rg"
   location = var.location
 }
 
