@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GlobalSend – Fraud Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Add Font Awesome for the icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="logo">
+            <i class="fas fa-globe-americas"></i>
+            GlobalSend
+        </div>
+    </header>
+
+    <main>
+
+        <h1 class="title">Fraud Dashboard</h1>
+
+        <!-- STATS -->
+        <section class="stats">
+            <div class="stat-box">
+                <div class="stat-label">Total Tx</div>
+                <div id="totalTx" class="stat-value"></div>
+                <div class="stat-sub">All transactions</div>
+            </div>
+
+            <div class="stat-box fraud">
+                <div class="stat-label">Fraud Cases</div>
+                <div id="fraudCount" class="stat-value"></div>
+                <div class="stat-sub">Flagged transactions</div>
+            </div>
+
+            <div class="stat-box">
+                <div class="stat-label">International Tx</div>
+                <div id="intlCount" class="stat-value"></div>
+                <div class="stat-sub">Cross-border</div>
+            </div>
+
+            <div class="stat-box">
+                <div class="stat-label">High-Risk %</div>
+                <div id="fraudRate" class="stat-value"></div>
+                <div class="stat-sub">Fraud rate</div>
+            </div>
+        </section>
+
+        <!-- ANALYSIS -->
+        <section class="analysis">
+            <h2>Transaction Analysis</h2>
+
+            <div class="search-row">
+                <input id="searchInput" type="text"
+                    placeholder="Search by Tx ID, user, country, category…">
+                <button onclick="searchData()">Search</button>
+            </div>
+
+            <div class="data-field">
+                <table id="resultsTable">
+                    <thead>
+                        <tr>
+                            <th>Tx ID</th>
+                            <th>User</th>
+                            <th>Amount</th>
+                            <th>Currency</th>
+                            <th>Country</th>
+                            <th>Category</th>
+                            <th>International</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- HIGH RISK -->
+        <section class="high-risk">
+            <h2>High-Risk Transactions</h2>
+            <p class="hint">Top flagged transactions requiring review</p>
+            <div class="risk-container" id="riskContainer"></div>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        © 2026 GlobalSend Fraud Intelligence
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,202 @@
+:root {
+    --primary-blue: #0A4D9C;
+    --primary-blue-dark: #083E7A;
+    --bg-light: #F4F8FF;
+    --card-bg: #FFFFFF;
+    --border-light: #D6E4FF;
+    --text-primary: #0A1F44;
+    --text-secondary: #4A5A75;
+    --fraud-red: #D7263D;
+    --fraud-red-light: #FFE5E8;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: var(--bg-light);
+    padding: 24px;
+    margin: 0;
+    color: var(--text-primary);
+}
+
+.header .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+}
+
+.header .logo i {
+    color: white;
+    font-size: 1.8rem;
+}
+
+/* HEADER */
+.header {
+    background: var(--primary-blue);
+    color: #fff;
+    padding: 18px 24px;
+    font-size: 24px;
+    font-weight: 700;
+    border-radius: 8px;
+}
+
+/* TITLES */
+.title {
+    margin: 24px 0 8px;
+    font-size: 28px;
+    color: var(--primary-blue);
+}
+
+/* STATS */
+.stats {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.stat-box {
+    flex: 1;
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 10px;
+    border-left: 6px solid var(--primary-blue);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.stat-box.fraud {
+    border-left-color: var(--fraud-red);
+}
+
+.stat-label {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    margin-top: 6px;
+}
+
+.stat-sub {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+}
+
+/* SECTIONS */
+.analysis,
+.high-risk {
+    background: var(--card-bg);
+    padding: 24px;
+    border-radius: 10px;
+    border: 1px solid var(--border-light);
+    margin-bottom: 24px;
+}
+
+.analysis h2,
+.high-risk h2 {
+    margin-top: 0;
+    color: var(--primary-blue);
+}
+
+/* SEARCH */
+.search-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.search-row input {
+    flex: 1;
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border-light);
+}
+
+.search-row button {
+    padding: 12px 24px;
+    background: var(--primary-blue);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.search-row button:hover {
+    background: var(--primary-blue-dark);
+}
+
+/* TABLE */
+.data-field {
+    background: var(--bg-light);
+    padding: 16px;
+    border-radius: 8px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+th {
+    background: var(--primary-blue);
+    color: white;
+    padding: 12px;
+    text-align: left;
+}
+
+td {
+    padding: 12px;
+    border-bottom: 1px solid var(--border-light);
+    color: var(--text-secondary);
+}
+
+tr:nth-child(even) {
+    background: #F0F6FF;
+}
+
+tr:hover {
+    background: #E3EEFF;
+    cursor: pointer;
+}
+
+tr.fraud-row {
+    background: var(--fraud-red-light) !important;
+    color: var(--fraud-red);
+    font-weight: 600;
+}
+
+/* HIGH RISK */
+.hint {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+}
+
+.risk-container {
+    display: flex;
+    gap: 16px;
+}
+
+.risk-box {
+    flex: 1;
+    background: var(--fraud-red-light);
+    border: 2px solid var(--fraud-red);
+    padding: 18px;
+    border-radius: 8px;
+    font-weight: 700;
+    text-align: center;
+}
+
+/* FOOTER */
+.footer {
+    text-align: center;
+    padding: 16px;
+    background: #E0ECFF;
+    border-radius: 8px;
+    font-size: 14px;
+    color: var(--text-secondary);
+}

@@ -7,26 +7,30 @@ on:
       - staging
       - dev
 
-
 permissions:
   id-token: write
   contents: read
 
 jobs:
-  terraform-deploy:
+  deploy:
     name: Terraform Deploy
     runs-on: ubuntu-latest
     environment: ${{ github.ref_name == 'main' && 'prod' || github.ref_name == 'staging' && 'staging' || 'dev' }}
 
     steps:
+      # -------------------------
+      # Checkout code
+      # -------------------------
       - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Debug Environment
         run: echo "Deploying to ${{ github.job }} in ${{ github.environment }} environment"
 
-      # Azure login for dev using OIDC
-      - name: Login to Azure (OIDC for dev)
+      # -------------------------
+      # Azure login & ARM env vars
+      # -------------------------
+      - name: Login to Azure (dev)
         if: github.ref_name == 'dev'
         uses: azure/login@v1.6.1
         with:
@@ -34,15 +38,14 @@ jobs:
           tenant-id: ${{ secrets.DEV_AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.DEV_AZURE_SUBSCRIPTION_ID }}
 
-      - name: Export ARM_* env vars (dev)
+      - name: Set ARM env vars (dev)
         if: github.ref_name == 'dev'
         run: |
           echo "ARM_CLIENT_ID=${{ secrets.DEV_AZURE_CLIENT_ID }}" >> $GITHUB_ENV
           echo "ARM_TENANT_ID=${{ secrets.DEV_AZURE_TENANT_ID }}" >> $GITHUB_ENV
           echo "ARM_SUBSCRIPTION_ID=${{ secrets.DEV_AZURE_SUBSCRIPTION_ID }}" >> $GITHUB_ENV
 
-      # Azure login for staging using SP credentials
-      - name: Login to Azure (SP for staging)
+      - name: Login to Azure (staging)
         if: github.ref_name == 'staging'
         uses: azure/login@v1.6.1
         with:
@@ -50,15 +53,14 @@ jobs:
           tenant-id: ${{ secrets.STAGING_AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.STAGING_AZURE_SUBSCRIPTION_ID }}
 
-      - name: Export ARM_* env vars (staging)
+      - name: Set ARM env vars (staging)
         if: github.ref_name == 'staging'
         run: |
           echo "ARM_CLIENT_ID=${{ secrets.STAGING_AZURE_CLIENT_ID }}" >> $GITHUB_ENV
           echo "ARM_TENANT_ID=${{ secrets.STAGING_AZURE_TENANT_ID }}" >> $GITHUB_ENV
           echo "ARM_SUBSCRIPTION_ID=${{ secrets.STAGING_AZURE_SUBSCRIPTION_ID }}" >> $GITHUB_ENV
 
-      # Azure login for prod using SP credentials
-      - name: Login to Azure (SP for prod)
+      - name: Login to Azure (prod)
         if: github.ref_name == 'main'
         uses: azure/login@v1.6.1
         with:
@@ -66,24 +68,49 @@ jobs:
           tenant-id: ${{ secrets.PROD_AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.PROD_AZURE_SUBSCRIPTION_ID }}
 
-      - name: Export ARM_* env vars (prod)
+      - name: Set ARM env vars (prod)
         if: github.ref_name == 'main'
         run: |
           echo "ARM_CLIENT_ID=${{ secrets.PROD_AZURE_CLIENT_ID }}" >> $GITHUB_ENV
           echo "ARM_TENANT_ID=${{ secrets.PROD_AZURE_TENANT_ID }}" >> $GITHUB_ENV
           echo "ARM_SUBSCRIPTION_ID=${{ secrets.PROD_AZURE_SUBSCRIPTION_ID }}" >> $GITHUB_ENV
 
-      # - name: Setup Terraform
-      #   uses: hashicorp/setup-terraform@v2
+      # -------------------------
+      # Step 1: Terraform Apply Root (ACR + App Service)
+      # -------------------------
+      - name: Terraform Apply Root
+        run: |
+          cd terraform
+          terraform init
+          terraform apply -auto-approve
 
-      # - name: Terraform Init
-      #   run: terraform init
-      #   working-directory: ./terraform
+      # -------------------------
+      # Step 2: Python Setup + Train ML Model
+      # -------------------------
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
 
-      # - name: Terraform Plan
-      #   run: terraform plan -out=tfplan -var="environment=${{ github.ref_name }}"
-      #   working-directory: ./terraform
+      - name: Install Python dependencies
+        run: pip install pandas scikit-learn joblib
 
-      # - name: Terraform Apply
-      #   run: terraform apply -auto-approve tfplan
-      #   working-directory: ./terraform
+      - name: Train ML Model
+        run: python3 ml/data/training.py
+
+      # -------------------------
+      # Step 3: Docker Build & Push
+      # -------------------------
+      - name: Build & Push Docker Image
+        run: |
+          docker build -t globalsend-site:v3 .
+          docker tag globalsend-site:v3 ${{ secrets.ACR_NAME }}.azurecr.io/globalsend-site:v3
+          docker push ${{ secrets.ACR_NAME }}.azurecr.io/globalsend-site:v3
+
+      # -------------------------
+      # Step 4: Restart App Service & Tail Logs
+      # -------------------------
+      - name: Restart App Service
+        run: |
+          az webapp restart --name app-globalsend --resource-group rg-globalsend
+          az webapp log tail --name app-globalsend --resource-group rg-globalsend
