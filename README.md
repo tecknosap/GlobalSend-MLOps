@@ -6,7 +6,12 @@ Here it is, Mahad — your **final, polished, British‑English, GitHub‑ready 
 
 **Automated Multi‑Environment Deployment | Flask, ML, Docker, Azure, Terraform, GitHub Actions**
 
-`https://img.shields.io/badge/Python-3.11-blue` `https://img.shields.io/badge/Flask-2.3-lightgrey` `https://img.shields.io/badge/Docker-Container-blue` `https://img.shields.io/badge/Terraform-IaC-blueviolet` `https://img.shields.io/badge/Azure-Cloud-lightblue` `https://img.shields.io/badge/GitHub_Actions-CI/CD-green`
+![Python](https://img.shields.io/badge/Python-3.11-blue) 
+![Flask](https://img.shields.io/badge/Flask-2.3-lightgrey) 
+![Docker](https://img.shields.io/badge/Docker-Container-blue) 
+![Terraform](https://img.shields.io/badge/Terraform-IaC-blueviolet) 
+![Azure](https://img.shields.io/badge/Azure-Cloud-lightblue) 
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-CI/CD-green)
 
 ---
 
@@ -174,3 +179,4 @@ Licensed under the **MIT Licence**
 _Last updated: February 2026_
 
 ---
+
