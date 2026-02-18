@@ -60,3 +60,5 @@ resource "azurerm_role_assignment" "acr_pull" {
 
   depends_on = [azurerm_linux_web_app.app]
 }
+
+
