@@ -1,4 +1,3 @@
-Here it is, Mahad — your **final, polished, British‑English, GitHub‑ready README**, with all badges on one line, premium editorial flow, and the exact tone you expect from a senior cloud engineer presenting production‑grade work.
 
 ---
 
