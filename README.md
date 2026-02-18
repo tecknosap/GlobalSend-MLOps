@@ -34,9 +34,18 @@ The application is **fully containerised** and deployed to **Azure App Service**
 
 **End‑to‑End Flow:**  
 Local Development → GitHub → GitHub Actions → OIDC / Service Principal → Terraform → Dev → Staging → Production → End Users
+ 
+### Architecture Diagram
+![Architecture Diagram](./assets/dsops.gif) 
 
-**Architecture Diagram:**  
-*(Insert diagram showing Flask API, ML model, Docker container, ACR, App Service, and CI/CD pipeline)*
+---
+
+### Fraud Dashboard
+
+
+![Fraud Dashboard](./assets/froudapp.png)     
+
+---
 
 ---
 
