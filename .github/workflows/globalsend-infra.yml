@@ -49,19 +49,25 @@ jobs:
           tenant-id: ${{ secrets.PROD_AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.PROD_AZURE_SUBSCRIPTION_ID }}
 
-      # # -------------------------
-      # # Terraform (infra + RBAC)
-      # # -------------------------
-      # - name: Setup Terraform
-      #   uses: hashicorp/setup-terraform@v2
-      #   with:
-      #     terraform_version: 1.6.0
+      # -------------------------
+      # Terraform Apply (create infra)
+      # -------------------------
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.6.0
 
-      # - name: Terraform Apply
-      #   run: |
-      #     cd terraform
-      #     terraform init
-      #     terraform apply -auto-approve -var="environment=${{ github.ref_name }}"
+      - name: Terraform Apply
+        run: |
+          cd terraform
+          terraform init
+          terraform apply -auto-approve -var="environment=${{ github.ref_name }}"
+
+      # -------------------------
+      # Wait for Azure resources to propagate
+      # -------------------------
+      - name: Wait for Azure propagation
+        run: sleep 20
 
       # -------------------------
       # Train ML model
@@ -78,22 +84,19 @@ jobs:
         run: python3 ml/data/train.py
 
       # -------------------------
-      # Build & Push Docker image
+      # Login to ACR, build & push Docker
       # -------------------------
       - name: Login to ACR
         run: az acr login --name acrglobalsend
 
-      - name: Build image
-        run:  docker build -f docker/Dockerfile -t acrglobalsend.azurecr.io/globalsend-site:v3 .
+      - name: Build Docker image
+        run: docker build -f docker/Dockerfile -t acrglobalsend.azurecr.io/globalsend-site:v3 .
 
-      - name: Push image
-        run: docker push acrglobalsend.azurecr.io/globalsend-site:v3      
+      - name: Push Docker image
+        run: docker push acrglobalsend.azurecr.io/globalsend-site:v3
 
       # -------------------------
-      # Restart App Service #   
+      # Restart App Service
       # -------------------------
       - name: Restart App Service
-        run: |
-          az webapp restart \
-            --name app-globalsend \
-            --resource-group globalsend-${{ github.ref_name }}-rg
+        run: az webapp restart --name app-globalsend --resource-group globalsend-${{ github.ref_name }}-rg
