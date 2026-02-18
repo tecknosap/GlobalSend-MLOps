@@ -49,19 +49,19 @@ jobs:
           tenant-id: ${{ secrets.PROD_AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.PROD_AZURE_SUBSCRIPTION_ID }}
 
-      # -------------------------
-      # Terraform (infra + RBAC)
-      # -------------------------
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_version: 1.6.0
+      # # -------------------------
+      # # Terraform (infra + RBAC)
+      # # -------------------------
+      # - name: Setup Terraform
+      #   uses: hashicorp/setup-terraform@v2
+      #   with:
+      #     terraform_version: 1.6.0
 
-      - name: Terraform Apply
-        run: |
-          cd terraform
-          terraform init
-          terraform apply -auto-approve -var="environment=${{ github.ref_name }}"
+      # - name: Terraform Apply
+      #   run: |
+      #     cd terraform
+      #     terraform init
+      #     terraform apply -auto-approve -var="environment=${{ github.ref_name }}"
 
       # -------------------------
       # Train ML model
