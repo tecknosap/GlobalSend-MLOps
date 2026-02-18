@@ -90,7 +90,7 @@ jobs:
         run: docker push acrglobalsend.azurecr.io/globalsend-site:v3
 
       # -------------------------
-      # Restart App Service
+      # Restart App Service #
       # -------------------------
       - name: Restart App Service
         run: |
