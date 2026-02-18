@@ -36,7 +36,7 @@ The application is **fully containerised** and deployed to **Azure App Service**
 Local Development → GitHub → GitHub Actions → OIDC / Service Principal → Terraform → Dev → Staging → Production → End Users
  
 ### Architecture Diagram
-![Architecture Diagram](./assets/mlops.gif) 
+![Architecture Diagram](./assets/mlops.gif)    
 
 
 ---
