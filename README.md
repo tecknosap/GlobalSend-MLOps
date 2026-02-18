@@ -39,6 +39,7 @@ Local Development → GitHub → GitHub Actions → OIDC / Service Principal →
 ![Architecture Diagram](./assets/mlops.gif)    
 
 
+
 ---
 
 ### Fraud Dashboard
