@@ -75,7 +75,7 @@ jobs:
         run: pip install pandas scikit-learn joblib
 
       - name: Train model
-        run: python3 ml/data/training.py
+        run: python3 ml/data/train.py
 
       # -------------------------
       # Build & Push Docker image
