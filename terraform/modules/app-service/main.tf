@@ -41,6 +41,15 @@ resource "azurerm_linux_web_app" "app" {
 }
 
 
+resource "azurerm_role_assignment" "aks_contributor_appgw" {
+  principal_id         = azurerm_linux_web_app.app.identity[0].principal_id
+  role_definition_name = "Contributor"
+ scope                = var.acr_id
+
+  depends_on = [azurerm_linux_web_app.app]
+}
+
+
 ########################
 # Role Assignment for ACR Pull
 ########################
