@@ -1,7 +1,7 @@
 provider "azurerm" {
   features {}
 }
-
+##
 
 locals {
   docker_image = "${module.acr.login_server}/globalsend-site:v3"
