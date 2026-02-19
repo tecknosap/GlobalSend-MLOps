@@ -15,5 +15,5 @@ variable "location" {
 variable "environment" {
   description = "Deployment environment (dev or staging)."
   type        = string
-  default     = "dev"
+  # default     = "dev"
 }
